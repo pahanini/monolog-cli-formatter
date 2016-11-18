@@ -1,0 +1,23 @@
+{
+    "name": "pahanini/monolog-cli-formatter",
+    "description": "Formats log for console with colors and indents for context",
+    "keywords": ["monolog", "log", "formatter"],
+    "homepage": "https://github.com/pahanini/monolog-cli-formatter",
+    "type": "monolog log formatter",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Pavel Tetyaev",
+            "email": "pahanini@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "monolog/monolog": "~1"
+    },
+    "autoload": {
+        "psr-4": {
+            "pahanini\\Monolog\\Formatter\\": ""
+        }
+    }
+}
