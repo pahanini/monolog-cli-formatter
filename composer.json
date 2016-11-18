@@ -3,7 +3,7 @@
     "description": "Formats log for console with colors and indents for context",
     "keywords": ["monolog", "log", "formatter"],
     "homepage": "https://github.com/pahanini/monolog-cli-formatter",
-    "type": "monolog log formatter",
+    "type": "formatter",
     "license": "BSD-3-Clause",
     "authors": [
         {
