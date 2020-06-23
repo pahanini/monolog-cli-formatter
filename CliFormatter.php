@@ -43,7 +43,7 @@ class CliFormatter extends NormalizerFormatter
         $lines = [Logger::getLevelName($record['level']) . ' : ' . $record['message']];
         if (!empty($record['context'])) {
             $context = json_encode($record['context'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            $lines = array_merge(explode(PHP_EOL, trim($context)));
+            $lines = array_merge($lines, explode(PHP_EOL, trim($context)));
         }
         $max = max(array_map('strlen', $lines));
         for ($i = 1, $iMax = count($lines); $i < $iMax; $i++) {
