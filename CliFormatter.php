@@ -12,8 +12,8 @@
 namespace pahanini\Monolog\Formatter;
 
 use Monolog\Formatter\NormalizerFormatter;
-use Monolog\LogRecord;
 use Monolog\Level;
+use Monolog\LogRecord;
 
 /**
  * Monolog CLI Formatter.
@@ -48,7 +48,7 @@ class CliFormatter extends NormalizerFormatter
     {
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $record = parent::format($record);
-        $lines = [Level::fromValue($record['level'])->getName() .' : '.$record['message']];
+        $lines = [Level::fromValue($record['level'])->getName().' : '.$record['message']];
         if (!empty($record['context'])) {
             $context = json_encode($record['context'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             $lines = array_merge($lines, explode(PHP_EOL, trim($context)));
