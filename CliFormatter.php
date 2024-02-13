@@ -12,7 +12,8 @@
 namespace pahanini\Monolog\Formatter;
 
 use Monolog\Formatter\NormalizerFormatter;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\LogRecord;
 
 /**
  * Monolog CLI Formatter.
@@ -22,25 +23,32 @@ use Monolog\Logger;
 class CliFormatter extends NormalizerFormatter
 {
     public const TAB = '    ';
-    public const COLORS = [
-        LOGGER::DEBUG     => '0;2',
-        LOGGER::INFO      => '0;32',
-        LOGGER::NOTICE    => '1;33',
-        LOGGER::WARNING   => '0;35',
-        LOGGER::ERROR     => '0;31',
-        LOGGER::CRITICAL  => ['0;30', '43'],
-        LOGGER::ALERT     => ['1;37', '45'],
-        LOGGER::EMERGENCY => ['1;37', '41'],
-    ];
+    public static $COLORS = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        static::$COLORS = [
+            Level::Debug->value     => '0;2',
+            Level::Info->value      => '0;32',
+            Level::Notice->value    => '1;33',
+            Level::Warning->value   => '0;35',
+            Level::Error->value     => '0;31',
+            Level::Critical->value  => ['0;30', '43'],
+            Level::Alert->value     => ['1;37', '45'],
+            Level::Emergency->value => ['1;37', '41'],
+        ];
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function format(array $record)
+    public function format(LogRecord $record)
     {
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $record = parent::format($record);
-        $lines = [Logger::getLevelName($record['level']).' : '.$record['message']];
+        $lines = [Level::fromValue($record['level'])->getName().' : '.$record['message']];
         if (!empty($record['context'])) {
             $context = json_encode($record['context'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             $lines = array_merge($lines, explode(PHP_EOL, trim($context)));
@@ -50,7 +58,7 @@ class CliFormatter extends NormalizerFormatter
             $lines[$i] = static::TAB.str_pad($lines[$i], $max + 5);
         }
         $string = implode(PHP_EOL, $lines);
-        $colors = static::COLORS[$record['level']];
+        $colors = static::$COLORS[$record['level']];
         if (is_array($colors)) {
             $pad = PHP_EOL.str_repeat(static::TAB.str_repeat(' ', $max + 5).PHP_EOL, 2);
 
